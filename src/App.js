@@ -21,6 +21,7 @@ function App() {
     }
 
     for (let i = 1, j = 0; i <= curEndDate; i++) {
+      //
       // ! 이번달 채워넣기
       if (list[j].length === 7) {
         j++;
