@@ -1,6 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 
+const Container = styled.div`
+  margin: auto;
+  width: 500px;
+  height: 500px;
+  border: 1px solid red;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: calc(500px / 7);
+  /* grid-template-rows: repeat(minmax(calc(500px / 7))); */
+  column-gap: 5px;
+  row-gap: 5px;
+`;
+const DateBox = styled.div`
+  width: 100%;
+  height: calc(500px / 7);
+  border: 1px solid purple;
+`;
+
 function App() {
   const getFullMonth = (yearMonth) => {
     const curMonthStart = new Date(yearMonth[0], yearMonth[1] - 1); //Date 객체로 생성
@@ -42,10 +60,20 @@ function App() {
         dateObj: nextDate,
       });
     }
+    return list;
   };
-  getFullMonth([2021, 1]);
 
-  return <div className="App"></div>;
+  console.log(getFullMonth([2021, 1]));
+
+  return (
+    <>
+      <Container>
+        {[1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1].map((El, index) => (
+          <DateBox key={index}>asdfas</DateBox>
+        ))}
+      </Container>
+    </>
+  );
 }
 
 export default App;
