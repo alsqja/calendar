@@ -1,22 +1,53 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-const Container = styled.div`
-  margin: auto;
-  width: 500px;
-  height: 500px;
+const Container = styled.div``;
+
+const Header = styled.div`
+  width: 350px;
+  height: 20px;
   border: 1px solid red;
+`;
+
+const DateGrid = styled.div`
+  width: 350px;
+  height: 350px;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-auto-rows: calc(500px / 7);
-  /* grid-template-rows: repeat(minmax(calc(500px / 7))); */
+  grid-auto-rows: calc(350px / 7);
   column-gap: 5px;
   row-gap: 5px;
 `;
 const DateBox = styled.div`
   width: 100%;
-  height: calc(500px / 7);
-  border: 1px solid purple;
+  height: 100%;
+  display: flex;
+  font-size: 13px;
+  color: black;
+  border: 1px solid lightgray;
+  ${({ current }) =>
+    !current &&
+    css`
+      color: gray;
+    `}
+`;
+const WeekGrid = styled.div`
+  width: 350px;
+  height: 18px;
+  margin-bottom: 3px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  column-gap: 3px;
+`;
+const WeekBox = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  background-color: dodgerblue;
+  color: white;
 `;
 
 function App() {
@@ -34,6 +65,7 @@ function App() {
         month: preDate.getMonth() + 1,
         date: preDate.getDate(),
         dateObj: preDate,
+        state: "pre",
       });
     }
 
@@ -46,7 +78,9 @@ function App() {
         year: yearMonth[0],
         month: yearMonth[1],
         date: i,
+
         dateObj: new Date(yearMonth[0], yearMonth[1] - 1, i),
+        state: "cur",
       });
     }
     let i = 0;
@@ -58,6 +92,7 @@ function App() {
         month: nextDate.getMonth() + 1,
         date: nextDate.getDate(),
         dateObj: nextDate,
+        state: "next",
       });
     }
     return list;
@@ -66,13 +101,23 @@ function App() {
   console.log(getFullMonth([2021, 1]));
 
   return (
-    <>
-      <Container>
-        {[1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1].map((El, index) => (
-          <DateBox key={index}>asdfas</DateBox>
+    <Container>
+      <Header></Header>
+      <WeekGrid>
+        {["일", "월", "화", "수", "목", "금", "토"].map((el, index) => (
+          <WeekBox key={index}>{el}</WeekBox>
         ))}
-      </Container>
-    </>
+      </WeekGrid>
+      <DateGrid>
+        {getFullMonth([2021, 1]).map((week, index) =>
+          week.map((day, idx) => (
+            <DateBox key={idx} current={day.state === "cur"}>
+              {day.date}
+            </DateBox>
+          ))
+        )}
+      </DateGrid>
+    </Container>
   );
 }
 
