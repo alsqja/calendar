@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
+import { dateFormat } from "../common/dateFormat";
 const OpenButton = styled.div`
-  width: 100px;
-  height: 50px;
+  width: 70px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid lightgray;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 17px;
   color: gray;
   cursor: pointer;
   position: relative;
@@ -19,6 +20,16 @@ const OpenButton = styled.div`
       color: white;
       background-color: darkgray;
     `}
+`;
+
+const RowBox = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ValueViewer = styled.div`
+  font-size: 17px;
+  margin-left: 20px;
 `;
 
 const CalendarContainer = styled.div`
@@ -74,13 +85,15 @@ const DateBox = styled.div`
   cursor: pointer;
 
   ${({ current }) =>
-    !current &&
-    css`
-      color: gray;
-      :hover {
-        border: 1px solid lightgray;
-      }
-    `}
+    !current
+      ? css`
+          color: gray;
+        `
+      : css`
+          :hover {
+            border: 1px solid lightgray;
+          }
+        `}
   ${({ selcted }) =>
     selcted &&
     css`
@@ -103,7 +116,7 @@ const WeekBox = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 12px;
-  border-radius: 3px;
+  border-radius: 2px;
   background-color: black;
   color: white;
 `;
@@ -188,9 +201,12 @@ function Calendar({ today, selectDate, setSelectDate }) {
 
   return (
     <>
-      <OpenButton modal={modal} onClick={() => setModal(!modal)}>
-        달력
-      </OpenButton>
+      <RowBox>
+        <OpenButton modal={modal} onClick={() => setModal(!modal)}>
+          달력
+        </OpenButton>
+        <ValueViewer>{dateFormat(selectDate)}</ValueViewer>
+      </RowBox>
       {modal && (
         <>
           <CalendarContainer>
